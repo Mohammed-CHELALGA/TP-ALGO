@@ -88,9 +88,9 @@ void displayList(Node *last) {
 int main() {
     Node *last = createList();
 
-    Product p1 = {1, "Milk", 120};
+    Product p1 = {1, "eggs", 120};
     Product p2 = {2, "Bread", 50};
-    Product p3 = {3, "Cheese", 200};
+    Product p3 = {3, "jus", 200};
 
     last = insertBeginning(last, p1);
     last = insertBeginning(last, p2);
