@@ -10,93 +10,87 @@ typedef struct Product {
 
 typedef struct Node {
     Product Prod;
-    struct Node *next;
+    struct Node* next;
 } Node;
 
-/*------------------------------------------------*/
-Node* createList() {
-    return NULL;   
+
+Node* empty() {
+    return NULL;
 }
 
-int isEmpty(Node *last) {
-    return (last == NULL);
+
+int IsEmpty(Node* head) {
+    return (head == NULL);
 }
 
-/*--------------------------------------------------*/
-Node* insertBeginning(Node *last, Product p) {
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    if (!newNode) {
-        printf("Memory allocation failed!\n");
-        exit(1);
+
+Node* insertBeginning(Node* head, Product P) {
+    Node* new =  malloc(sizeof(Node));
+    new->Prod = P;
+
+    if (head == NULL) {
+        new->next = new;
+        return new;
     }
 
-    newNode->Prod = p;
-
-    if (last == NULL) {
-        last = newNode;
-        newNode->next = newNode;
-    } else {
-        newNode->next = last->next;
-        last->next = newNode;
+    Node* t = head;
+    while (t->next != head){
+        t = t->next;
     }
-    return last;
+    t->next = new;
+    new->next = head;
+    return new;
+}  
+
+Node* insertEnd(Node* head, Product P) {
+    Node* new = malloc(sizeof(Node));
+    new->Prod = P;
+    if (head == NULL) {
+        new->next = new;
+        return new;
+    }
+
+    Node* t= head;
+    while (t->next != head)
+        t= t->next;
+    t->next = new;
+    new->next = head;
+
+    return head;
 }
 
-/*--------------------------------------------------*/
-Node* insertEnd(Node *last, Product p) {
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    if (!newNode) {
-        printf("Memory allocation failed!\n");
-        exit(1);
-    }
+void Display(Node* head) {
 
-    newNode->Prod = p;
-
-    if (last == NULL) {
-        last = newNode;
-        newNode->next = newNode;
-    } else {
-        newNode->next = last->next;
-        last->next = newNode;
-        last = newNode;
-    }
-    return last;
-}
-
-/*--------------------------------------------------*/
-void displayList(Node *last) {
-    if (last == NULL) {
-        printf("The list is empty.\n");
+    if (head == NULL) {
+        printf("List is empty.\n");
         return;
     }
 
-    Node *temp = last->next;
+    Node* t = head;
 
-    printf("\nProducts in Circular List:\n");
     do {
-        printf("ID: %d | Name: %s | Price: %d\n",
-               temp->Prod.ID,
-               temp->Prod.Name,
-               temp->Prod.Price);
-
-        temp = temp->next;
-
-    } while (temp != last->next);
+        printf("Product \n ID: %d / Name: %s / Price: %d\n",t->Prod.ID,t->Prod.Name,t->Prod.Price);
+        t = t->next;
+    } while (t != head);
 }
 
-/*--------------------------------------------------*/
 int main() {
-    Node *last = createList();
+    Node* head = empty();
+    Product a;
 
-    Product p1 = {1, "eggs", 120};
-    Product p2 = {2, "Bread", 50};
-    Product p3 = {3, "jus", 200};
+    a.ID = 0001;
+    strcpy(a.Name,"bread");
+    a.Price = 300;
+    head = insertBeginning(head, a);
 
-    last = insertBeginning(last, p1);
-    last = insertBeginning(last, p2);
-    last = insertEnd(last, p3);
 
-    displayList(last);
+    a.ID = 0002;
+    strcpy(a.Name,"chocolate");
+    a.Price = 150;
+    head = insertEnd(head,a );
+    
+
+    Display(head);
 
     return 0;
 }
